@@ -52,7 +52,27 @@
     line-height: 1.4;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+.mute-btn {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    font-size: 50px;
+    cursor: pointer;
+    
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    user-select: none;
+}
 
+.mute-btn.muted {
+    opacity: 0.7;
+}
 @media (max-width: 768px) {
     #game-title {
         font-size: 14px;
@@ -177,11 +197,46 @@
 	
       </div>$
       <div class="boundingbox" id="playerbox"></div>
-      <div class="boundingbox" id="pipebox"></div>
+      <div class="boundingbox" id="pipebox"></div><div id="mute-btn" class="mute-btn">🔇</div>
       
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
      
       <script>
+        // Change this:
+var volume = 30
+
+// To this:
+var volume = 30;
+window.gameVolume = volume; // Make it accessible globally if needed// Add this after your sound variables are declared
+var isMuted = false;
+
+// Mute button functionality
+$("#mute-btn").click(function() {
+    isMuted = !isMuted;
+    
+    if (isMuted) {
+        // Mute all sounds
+        buzz.all().setVolume(0);
+        $(this).addClass("muted").html("🔇");
+    } else {
+        // Unmute all sounds
+        buzz.all().setVolume(volume);
+        $(this).removeClass("muted").html("🔈");
+    }
+    
+    // Store mute preference in localStorage
+    localStorage.setItem('flappyMuted', isMuted);
+});
+
+// Check for saved mute preference when page loads
+$(document).ready(function() {
+    var savedMute = localStorage.getItem('flappyMuted');
+    if (savedMute === 'true') {
+        isMuted = true;
+        buzz.all().setVolume(0);
+        $("#mute-btn").addClass("muted").html("🔈");
+    }
+});
          document.addEventListener('DOMContentLoaded', function() {
             // Check if disclaimer has been accepted before
             if (!localStorage.getItem('disclaimerAccepted')) {
