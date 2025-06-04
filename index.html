@@ -38,14 +38,119 @@
 	@media (orientation: landscape) and (min-height: 600px) and (min-width: 1270px) { #leftad {display: block;} #rightad {display: block;} #hdad { display: block; } }
 	@media (orientation: portrait) and (min-width: 760px) { .largetab { display: inline-block } }
 	@media (orientation: portrait) and (min-width: 460px) and (max-width: 759px) { #hdad {display: block} }
+    #game-title {
+    text-align: center;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    font-family: 'Orbitron', 'Press Start 2P', Courier, monospace;
+    font-size: 16px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    max-width: 90%;
+    line-height: 1.4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    #game-title {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-title {
+        font-size: 12px;
+        padding: 6px 10px;
+        margin-top: 10px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    #game-title {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-title {
+        font-size: 12px;
+        padding: 6px 10px;
+        margin-top: 10px;
+    }
+}
+
+         #disclaimer-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Poppins', sans-serif;
+         }
+         
+         #disclaimer-content {
+            background-color: #111;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #ff3333;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+         }
+         
+         #disclaimer-content h2 {
+            color: #ff3333;
+            margin-top: 0;
+            font-size: 30px;
+         }
+         
+         #disclaimer-content p {
+            margin-bottom: 20px;
+            line-height: 1.5;
+         }
+         
+         #disclaimer-ok {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+         }
+         
+         #disclaimer-ok:hover {
+            background-color: #ff5555;
+         }
 	</style>
     
 	
-
+ <div id="disclaimer-popup">
+         <div id="disclaimer-content">
+            <h2>DISCLAIMER</h2><br>
+            <p style="font-size: 19px;">This game was cooked up purely for fun and dedicated to my bro, Rizwan Ahamed. It’s just a silly joke between us—nothing serious, nothing deep, just pure chaos and brotherly teasing. No offense, no terrorism</p>
+            <p style="font-size: 19px;">By clicking "OK", you agree this chaos is all in good fun.</p>
+            <button id="disclaimer-ok">OK</button>
+         </div>
+      </div>
          <div id="gamescreen">
 
             <div id="sky" class="animated">
-                <div style="text-align: center; margin-top: 30px;font-size: 20px; font-family: 'Montserrat', Courier, monospace;" > Turning  "Riz Bro's" questionable search history into gameplay ✈️💥<br><br>Just to bring his dark ambitions to life 💀..</div>
+                <div id="game-title">Turning "Riz Bro's" questionable search history into gameplay ✈️💥<br>Just to bring his dark ambitions to life 💀</div>
                <div id="flyarea">
                   <div id="ceiling" class="animated"></div>
                   <!-- This is the flying and pipe area container -->
@@ -76,16 +181,22 @@
       
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
      
-      <script>// ----------------------------------------------------------------------------
-        // Buzz, a Javascript HTML5 Audio library
-        // v1.1.0 - released 2013-08-15 13:18
-        // Licensed under the MIT license.
-        // http://buzz.jaysalvat.com/
-        // ----------------------------------------------------------------------------
-        // Copyright (C) 2010-2013 Jay Salvat
-        // http://jaysalvat.com/
-        // ----------------------------------------------------------------------------
-        
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            // Check if disclaimer has been accepted before
+            if (!localStorage.getItem('disclaimerAccepted')) {
+               // Show the popup if not accepted
+               document.getElementById('disclaimer-popup').style.display = 'flex';
+            }
+            
+            // Handle OK button click
+            document.getElementById('disclaimer-ok').addEventListener('click', function() {
+               // Hide the popup
+               document.getElementById('disclaimer-popup').style.display = 'none';
+               // Store acceptance in localStorage
+               localStorage.setItem('disclaimerAccepted', 'true');
+            });
+         });
         (function(t, n, e) {
             "undefined" != typeof module && module.exports ? module.exports = e() : "function" == typeof n.define && n.define.amd ? define(t, [], e) : n[t] = e()
         }
@@ -1348,7 +1459,7 @@ buzz.defaults.formats = ["mp3", "mp3"];
 var volume = 30
   , soundJump = new buzz.sound("flap")
   , soundScore = new buzz.sound("point")
-  , soundDie = new buzz.sound("")
+  , soundDie = new buzz.sound("ss")
   , soundSwoosh = new buzz.sound("tab")
   , soundNasheed = new buzz.sound("ss")
   , soundHit = new buzz.sound("die");
